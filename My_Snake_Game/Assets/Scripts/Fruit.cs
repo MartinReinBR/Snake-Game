@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fruit : MonoBehaviour
+namespace SnakeGameNS
 {
-    public GameObject spawner;
-
-    private void Start()
+    public class Fruit : MonoBehaviour
     {
-        spawner = GameObject.FindWithTag("Spawner");
-        if (spawner == null)
+        public GameObject spawner;
+
+        private void Start()
         {
-            Debug.Log("error");
+            spawner = GameObject.FindWithTag("Spawner");
+            if (spawner == null)
+            {
+                Debug.Log("error");
+            }
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            spawner.GetComponent<FruitSpawner>().SpawnFruit();
-            Destroy(gameObject);
+            if (collision.tag == "Player")
+            {
+                spawner.GetComponent<FruitSpawner>().SpawnFruit();
+                Destroy(gameObject);
+            }
         }
     }
 }

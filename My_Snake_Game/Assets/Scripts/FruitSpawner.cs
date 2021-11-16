@@ -2,29 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FruitSpawner : MonoBehaviour
+namespace SnakeGameNS
 {
-    public BoxCollider2D SpawnArea;
-    public GameObject fruitPrefab;
-
-    private void Start()
+    public class FruitSpawner : MonoBehaviour
     {
-        SpawnArea = GetComponent<BoxCollider2D>();
-        SpawnFruit();
-    }
+        public BoxCollider2D SpawnArea;
+        public GameObject fruitPrefab;
 
-    private Vector3 RandomPosition()
-    {
-        Bounds bounds = SpawnArea.bounds;
+        private void Start()
+        {
+            SpawnArea = GetComponent<BoxCollider2D>();
+            SpawnFruit();
+        }
 
-        float xPosition = Random.Range(bounds.min.x, bounds.max.x);
-        float yPosition = Random.Range(bounds.min.y, bounds.max.y);
+        private Vector3 RandomPosition()
+        {
+            Bounds bounds = SpawnArea.bounds;
 
-        return new Vector3(Mathf.Round(xPosition), Mathf.Round(yPosition), 0f);
-    }
+            float xPosition = Random.Range(bounds.min.x, bounds.max.x);
+            float yPosition = Random.Range(bounds.min.y, bounds.max.y);
 
-    public void SpawnFruit()
-    {
-        Instantiate(fruitPrefab, RandomPosition(), transform.rotation);
+            return new Vector3(Mathf.Round(xPosition), Mathf.Round(yPosition), 0f);
+        }
+
+        public void SpawnFruit()
+        {
+            Instantiate(fruitPrefab, RandomPosition(), transform.rotation);
+        }
     }
 }
