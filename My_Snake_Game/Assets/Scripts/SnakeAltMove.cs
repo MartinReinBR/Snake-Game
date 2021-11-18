@@ -7,6 +7,8 @@ namespace SnakeGameNS
 {
     public class SnakeAltMove : MonoBehaviour
     {
+        [SerializeField] private ScoreUI ui;
+        private int _score;
 
         private Vector2 _direction = Vector2.up;
         private LList<Transform> _bodySegments;
@@ -21,6 +23,7 @@ namespace SnakeGameNS
         {
             _bodySegments = new LList<Transform>();
             _bodySegments.Add(transform);
+            _score = 0;
         }
 
         private void Update()
@@ -61,9 +64,9 @@ namespace SnakeGameNS
             }
         }
 
-        private void RestartGame()
+        private void GameOver()
         {
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene(0);
         }
 
         private void IncreaseSize()
@@ -79,11 +82,23 @@ namespace SnakeGameNS
             if (collision.tag == "Fruit")
             {
                 IncreaseSize();
+                AddPoints();
             }
             else if (collision.tag == "Obstacle")
             {
-                RestartGame();
+                if(_score > PlayerPrefs.GetInt("Highscore"))
+                {
+                    PlayerPrefs.SetInt("Highscore", _score);
+                }
+
+                GameOver();               
             }
+        }
+
+        public void AddPoints()
+        {
+            _score++;
+            ui.SetScoreText(_score);
         }
     }
 }

@@ -30,8 +30,11 @@ namespace SnakeGameNS
                 {
                     GameObject obj = Instantiate(gridPrefab, new Vector2(leftBottomLocation.x + scale * x, leftBottomLocation.y + scale * y), Quaternion.identity);
                     obj.transform.SetParent(gameObject.transform);
-                    obj.GetComponent<SnakeGrid>().x = x;
-                    obj.GetComponent<SnakeGrid>().y = y;
+                    obj.GetComponent<GridTile>().x = x;
+                    obj.GetComponent<GridTile>().y = y;
+
+                    var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
+                    obj.GetComponent<GridTile>().InitializeTile(isOffset);
                 }
             }
         }
