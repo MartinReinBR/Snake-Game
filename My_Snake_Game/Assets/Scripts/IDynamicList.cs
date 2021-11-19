@@ -15,11 +15,11 @@ namespace SnakeGameNS
 
         public void RemoveAt(int index);
 
-        //public bool Remove(T item);
+        public bool Remove(T item);
 
         public void Clear();
 
-        //public void CopyTo(T[] target, int index);
+        public void CopyTo(T[] target, int index);
 
         public T this[int index]
         {

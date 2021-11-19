@@ -78,9 +78,20 @@ namespace SnakeGameNS
 
         public bool Remove(T item)
         {
+            LListNode<T> currentNode = _head;
 
+            for (int i = 0; i < _count; i++)
+            {
+                if (currentNode.NextNode.Data.Equals(item))
+                {
+                    currentNode.NextNode = currentNode.NextNode.NextNode;
+                    _count--;
+                    return true;
+                }
+                currentNode = currentNode.NextNode;
 
-            return true;
+            }
+            return false;
         }
 
         public void RemoveAt(int index)
@@ -145,6 +156,18 @@ namespace SnakeGameNS
                 currentNode = currentNode.NextNode;
             }
             return false;
+        }
+
+        public void CopyTo(T[] target, int index)
+        {
+            LListNode<T> currentNode = _head;
+
+            for (int i = index; i < _count + index; i++)
+            {
+                target[i] = currentNode.Data;
+
+                currentNode = currentNode.NextNode;
+            }
         }
 
         public T this[int index]
