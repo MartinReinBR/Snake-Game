@@ -6,28 +6,44 @@ namespace SnakeGameNS
 {
     public class FruitSpawner : MonoBehaviour
     {
-        public BoxCollider2D SpawnArea;
-        public GameObject fruitPrefab;
+        private GameObject[,] GridArray = null;
+        [SerializeField]private GameObject fruitPrefab;
+        private int fruitSpawnIndexX;
+        private int fruitSpawnIndexY;
+        private bool isGridOccupied = true;
 
         private void Start()
         {
-            SpawnArea = GetComponent<BoxCollider2D>();
-            SpawnFruit();
+            if(GridArray != null)
+                SpawnFruit();
+        }
+
+        public void GetGridArray( GameObject [,] gridArray)
+        {
+            GridArray = gridArray;
         }
 
         private Vector3 RandomPosition()
         {
-            Bounds bounds = SpawnArea.bounds;
+            isGridOccupied = true;
+            GameObject pointToSpawn = null;
+            while (isGridOccupied)
+            {
+                fruitSpawnIndexX = Random.Range(1, GridArray.GetLength(0) - 1);
+                fruitSpawnIndexY = Random.Range(1, GridArray.GetLength(1) - 1);
 
-            float xPosition = Random.Range(bounds.min.x, bounds.max.x);
-            float yPosition = Random.Range(bounds.min.y, bounds.max.y);
+                pointToSpawn = GridArray[fruitSpawnIndexX, fruitSpawnIndexY];
+                if (!pointToSpawn.GetComponent<GridTile>().isOccupied)
+                    isGridOccupied = false;
+            }
 
-            return new Vector3(Mathf.Round(xPosition), Mathf.Round(yPosition), 0f);
+            return new Vector3(Mathf.Round(pointToSpawn.transform.position.x), Mathf.Round(pointToSpawn.transform.position.y), 0f);
         }
 
         public void SpawnFruit()
         {
-            Instantiate(fruitPrefab, RandomPosition(), transform.rotation);
+            Vector3 spawnPosition = RandomPosition();
+            Instantiate(fruitPrefab, spawnPosition, transform.rotation);
         }
     }
 }

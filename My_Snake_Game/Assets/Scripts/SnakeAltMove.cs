@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,20 +8,46 @@ namespace SnakeGameNS
         [SerializeField] private ScoreUI ui;
         private int _score;
 
+        public GameObject[,] gridArray = null;
+        private int currentIndexX;
+        private int currentIndexY;
+        private int targetIndexX;
+        private int targetIndexY;
+
         private Vector2 _direction = Vector2.up;
         private LList<Transform> _bodySegments;
-        public Transform BodyPrefab;
-
+        [SerializeField] private Transform BodyPrefab;
         private Vector3 previousPos;
 
-        float passedTime;
-        public float timeBetweenMovements = 0.1f;
+        private float passedTime;
+        [SerializeField] private float timeBetweenMovements = 0.1f;
 
         private void Start()
         {
+            GetStartPosition();
             _bodySegments = new LList<Transform>();
             _bodySegments.Add(transform);
             _score = 0;
+        }
+
+        public void GetGridArray(GameObject[,] gridArray)
+        {
+            this.gridArray = gridArray;
+        }
+
+        public void GetStartPosition()
+        {
+            for (int x = 0; x < gridArray.GetLength(0); x++)
+            {
+                for (int y = 0; y < gridArray.GetLength(1); y++)
+                {
+                    if (transform.position.x == gridArray[x, y].transform.position.x && transform.position.y == gridArray[x, y].transform.position.y)
+                    {
+                        currentIndexX = x;
+                        currentIndexY = y;
+                    }
+                }
+            }
         }
 
         private void Update()
@@ -49,18 +73,33 @@ namespace SnakeGameNS
 
         private void FixedUpdate()
         {
-            passedTime += Time.deltaTime;
-            if (timeBetweenMovements < passedTime)
-            {
-                previousPos = transform.position;
-                passedTime = 0;
-                // Move
-                for (int i = _bodySegments.Count - 1; i > 0; i--)
-                {
-                    _bodySegments[i].position = _bodySegments[i - 1].position;
-                }
+            targetIndexX = currentIndexX + (int)_direction.x;
+            targetIndexY = currentIndexY + (int)_direction.y;
 
-                transform.position = new Vector3(transform.position.x + _direction.x, transform.position.y + _direction.y, 0f);
+            if (targetIndexX < 0 || targetIndexX >= gridArray.GetLength(0) || targetIndexY < 0 || targetIndexY >= gridArray.GetLength(1))
+            {
+                targetIndexX = currentIndexX;
+                targetIndexY = currentIndexY;
+                return;
+            }
+
+            if (gridArray[targetIndexX, targetIndexY] != null)
+            {
+                passedTime += Time.deltaTime;
+                if (timeBetweenMovements < passedTime)
+                {
+                    previousPos = transform.position;
+                    passedTime = 0;
+                    // Move
+                    for (int i = _bodySegments.Count - 1; i > 0; i--)
+                    {
+                        _bodySegments[i].position = _bodySegments[i - 1].position;
+                    }
+
+                    transform.position = new Vector3(transform.position.x + _direction.x, transform.position.y + _direction.y, 0f);
+                    currentIndexX = targetIndexX;
+                    currentIndexY = targetIndexY;
+                }
             }
         }
 

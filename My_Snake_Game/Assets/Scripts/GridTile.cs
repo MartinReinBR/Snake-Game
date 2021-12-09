@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace SnakeGameNS
 {
@@ -11,12 +8,27 @@ namespace SnakeGameNS
         [SerializeField] private Color _offsetColor;
         [SerializeField] private SpriteRenderer _renderer;
 
+        public bool isOccupied = false;
+
         public void InitializeTile(bool isOffset)
         {
             _renderer.color = isOffset ? _offsetColor : _baseColor;
         }
 
-        public int x = 0;
-        public int y = 0;
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.tag == "Player" || collision.tag == "Obstacle")
+            {
+                isOccupied = true;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.tag == "Player" || collision.tag == "Obstacle")
+            {
+                isOccupied = false;
+            }
+        }
     }
 }
