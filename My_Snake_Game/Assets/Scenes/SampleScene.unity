@@ -154,12 +154,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fruitSpawner: {fileID: 489372762}
   player: {fileID: 1894976917}
-  rows: 19
-  columns: 35
+  rows: 21
+  columns: 37
   scale: 1
   gridPrefab: {fileID: 8840483350397783851, guid: 1eb5c43e75d6f1b4ca06c9bf69b8b3b2, type: 3}
   gridWallPrefab: {fileID: 8840483350397783851, guid: 743163d515351b7468ccd0ccd9836382, type: 3}
-  leftBottomLocation: {x: -17, y: -9}
+  leftBottomLocation: {x: -18, y: -10}
 --- !u!4 &106708149
 Transform:
   m_ObjectHideFlags: 0
@@ -718,13 +718,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1894976917}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1de6fd6d03902c941a2a31173e60478c, type: 3}
+  m_Script: {fileID: 11500000, guid: d400d3d434441bd44bb4e8df65463a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentIndexX: 0
-  currentIndexY: 0
-  targetIndexX: 0
-  targetIndexY: 0
+  ui: {fileID: 1549044875}
+  BodyPrefab: {fileID: 7383050817447118474, guid: d2882616c41473c458cfbc8c7f40d863, type: 3}
+  timeBetweenMovements: 0.1
 --- !u!1 &2015534448
 GameObject:
   m_ObjectHideFlags: 0
