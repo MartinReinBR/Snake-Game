@@ -85,6 +85,7 @@ namespace SnakeGameNS
 
             if (gridArray[targetIndexX, targetIndexY] != null)
             {
+                Vector3 newPosition = gridArray[targetIndexX,targetIndexY].transform.position;
                 passedTime += Time.deltaTime;
                 if (timeBetweenMovements < passedTime)
                 {
@@ -96,7 +97,7 @@ namespace SnakeGameNS
                         _bodySegments[i].position = _bodySegments[i - 1].position;
                     }
 
-                    transform.position = new Vector3(transform.position.x + _direction.x, transform.position.y + _direction.y, 0f);
+                    transform.position = newPosition;
                     currentIndexX = targetIndexX;
                     currentIndexY = targetIndexY;
                 }
